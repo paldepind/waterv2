@@ -1,4 +1,4 @@
-# Whater v2
+# Water v2
 A nifty network enabled multiplayer ping pong game
 
 Features a simple JavaScript frontend and a Node.js backend who politely talks to each other by using Socket.IO.
@@ -22,4 +22,4 @@ The following fancy web technologies is being used
 * ... more to come, I promise
 
 Other buzzwords
-* It's gaming in /the cloud/
+* It's gaming in *the cloud*
