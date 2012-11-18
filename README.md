@@ -10,3 +10,16 @@ Clone the rep, enter the directory and do a `npm install`.
 * Get rid of slam code
 * Make somewhat enjoyable
 * Curved bat - it's going to be awesome
+
+## Kewl things about Water v2
+
+The following fancy web technologies is being used
+* Node.js
+* Socket.IO
+* Express
+* Jade
+* HTML5
+* ... more to come, I promise
+
+Other buzzwords
+* It's gaming in /the cloud/
