@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+    <head>
+        <title>Test</title>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <button id="knap">Klik på mig din hest</button>
+        <script>
+          var socket = io.connect('http://localhost:3000');
+          socket.on('connect', function (data) {
+              console.log("Imma connected");
+              console.log(data);
+          });
+
+          socket.on('mov', function(msg) {
+              console.log(msg.pos);
+          });
+
+          document.getElementById('knap').onclick = function () {
+              socket.emit('mov', { pos: '1' });
+          }
+        </script>
+    </body>
+</html>

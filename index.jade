@@ -1,0 +1,156 @@
+doctype 5
+html
+  head
+    title='Whater v2 - your online ping pong bar'
+    script(src='/socket.io/socket.io.js')
+    style
+      #canvas {
+        border: 1px solid black;
+        margin: auto 0;
+      }
+  body
+    canvas#canvas(width="600px", height="300px")
+    br
+    Player 1:
+    span#1 0
+    br
+    Player 2:
+    span#2 0
+    script
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var width = 600;
+      var height = 300;
+      var game_state = "waiting";
+      
+      var one = document.getElementById('1');
+      var two = document.getElementById('2');
+      
+      var socket = io.connect('http://localhost:3000');
+      
+      socket.on('mov', function(msg) {
+          pads[1].y = msg.ypos;
+      });
+      
+      socket.on('game_state_change', function(state) {
+          game_state = state;
+          console.log(game_state);
+          if (game_state == "start") {
+              window.webkitRequestAnimationFrame(update);
+          }
+      });
+      
+      socket.on('joined_game', function(id) {
+          if (id == 1) {
+              ball.dx = -ball.dx;
+          }
+      });
+      
+      var ball = {
+          x: width/2,
+          y: height/2,
+          radius: 5,
+          dx: 3,
+          dy: 1,
+      
+          reset: function() {
+              this.dx = -this.dx;
+              this.x = width/2;
+              this.y = height/2;
+          }
+      };
+      
+      var pads = [];
+      
+      function pad(x, y, length) {
+          var obj = {};
+          obj.x = x;
+          obj.y = y;
+          obj.length = length;
+          obj.score = 0;
+          obj.points = 0;
+          obj.v = 0;
+      
+          obj.render = function () {
+              ctx.fillRect(obj.x-1, obj.y, 2, obj.length);
+          }
+      
+          pads.push(obj);
+      }
+      
+      pad(20, 150, 40);
+      pad(width-20, 250, 40);
+      
+      function update() {
+          ball.x += ball.dx;
+          ball.y += ball.dy;
+      
+          pads[0].y += pads[0].v;
+          pads.forEach(function (pad) {
+              if (ball.x + ball.radius > pad.x && ball.x - ball.radius < pad.x &&
+                ball.y + ball.radius > pad.y && ball.y - ball.radius < pad.y + pad.length) {
+                  ball.dx = -ball.dx;
+              }
+          });
+          socket.emit('mov', { ypos: pads[0].y });
+      
+          if (ball.x + ball.radius > width) {
+              console.log("Playes 2 looses");
+              pads[1].score++;
+              two.innerHTML = pads[1].score;
+              ball.reset();
+          } else if (ball.x - ball.radius < 0) {
+              console.log("Player 1 looses");
+              pads[0].score++;
+              two.innerHTML = pads[0].score;
+              ball.reset();
+          }
+      
+          if (ball.y + ball.radius > height || ball.y - ball.radius < 0) {
+              ball.dy = -ball.dy;
+          }
+      
+          ctx.fillStyle = "rgba(255,255,255,0.18)";
+          ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = "black";
+      
+          ctx.beginPath();
+          ctx.moveTo(ball.x, ball.y);
+          ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, true);
+          ctx.fill();
+      
+          pads.forEach(function (pad) {
+              pad.render();
+          });
+    
+          window.webkitRequestAnimationFrame(update);
+      }
+      
+      document.onkeydown = function(ev) {
+          var n = ev.keyCode;
+          console.log(n);
+          switch(n) {
+          case 69: // e
+              pads[0].v = 2;
+              break;
+          case 73: // i
+              pads[0].v = -2;
+              break;
+          case 32: // space
+              if (game_state == "ready") {
+                  socket.emit("game_state_change", "start");
+              }
+          }
+      }
+      
+      document.onkeyup = function(ev) {
+          var n = ev.keyCode;
+          switch(n) {
+          case 69: // e
+              pads[0].v = 0;
+              break;
+          case 73: // i
+              pads[0].v = 0;
+              break;
+          }
+      }
