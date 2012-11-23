@@ -3,8 +3,11 @@
   , "version": "0.0.1"
   , "author": "paldepind <simonfv@gmail.com>"
   , "description": "a nifty network enabled multiplayer ping pong game"
+  , "engines": {
+        "node": "0.8.x"
+    }
   , "dependencies": {
-        "express": "3.0.3"
+      , "express": "3.0.3"
       , "jade": "0.27.7"
       , "socket.io": "0.9.11"
     }
