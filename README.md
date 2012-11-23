@@ -6,10 +6,11 @@ Features a simple JavaScript frontend and a Node.js backend who politely talks t
 ## Install
 Clone the rep, enter the directory and do a `npm install`.
 
-## Things to do
-* Get rid of slam code
-* Make somewhat enjoyable
-* Curved bat - it's going to be awesome
+## How to play
+1. Direct your browser to http://localhost:3000 (if running local)
+2. Do the same in another tab/on another computer.
+3. When to players are connected one of them can start the game by pressing space
+4. The game is on! Control the bat with the arrow keys
 
 ## Kewl things about Water v2
 
@@ -19,7 +20,6 @@ The following fancy web technologies is being used
 * Express
 * Jade
 * HTML5
-* ... more to come, I promise
 
 Other buzzwords
 * It's gaming in *the cloud*
