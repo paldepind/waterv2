@@ -5,7 +5,8 @@ var app = require('express')()
 
 players = 0;
 
-server.listen(3000);
+var port = process.env.PORT || 3000;
+server.listen(port);
 
 // We are storing the views in the current folder for convenience
 app.set('views', '.');
