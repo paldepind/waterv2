@@ -1,7 +1,7 @@
 doctype 5
 html
   head
-    title='Whater v2 - ping pong'
+    title='Water v2 - ping pong'
     script(src='/socket.io/socket.io.js')
     style
       #canvas {
@@ -11,10 +11,10 @@ html
   body
     canvas#canvas(width="600px", height="300px")
     br
-    Player 1: 
+    | Player 1: 
     span#1 0
     br
-    Player 2: 
+    | Player 2: 
     span#2 0
     script
       var canvas = document.getElementById('canvas');
@@ -128,12 +128,12 @@ html
       
       document.onkeydown = function(ev) {
           var n = ev.keyCode;
-          //console.log(n);
+          console.log(n);
           switch(n) {
-          case 69: // e
+          case 40: // e
               pads[0].v = 2;
               break;
-          case 73: // i
+          case 38: // i
               pads[0].v = -2;
               break;
           case 32: // space
@@ -146,10 +146,10 @@ html
       document.onkeyup = function(ev) {
           var n = ev.keyCode;
           switch(n) {
-          case 69: // e
+          case 40: // e
               pads[0].v = 0;
               break;
-          case 73: // i
+          case 38: // i
               pads[0].v = 0;
               break;
           }
